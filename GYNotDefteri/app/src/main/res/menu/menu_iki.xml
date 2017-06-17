@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/share_id"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="Paylaş"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/sms_id"
+                android:icon="@android:drawable/ic_menu_send"
+                android:title="SMS"
+                android:orderInCategory="200">
+            </item>
+            <item
+                android:title="Mail"
+                android:icon="@android:drawable/ic_dialog_email"
+                android:id="@+id/mail_id"
+                android:orderInCategory="200">
+            </item>
+
+
+        </menu>
+    </item>
+
+</menu>
