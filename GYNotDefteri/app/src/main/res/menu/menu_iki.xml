@@ -3,6 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="EKLE"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:title="Konum"
+                android:id="@+id/konum_id"
+                android:icon="@android:drawable/ic_menu_mylocation">
+        </item>
+            <item
+                android:title="Galeri"
+                android:id="@+id/galeri_id"
+                android:icon="@android:drawable/ic_menu_gallery">
+            </item>
+            <item
+                android:title="Kamera"
+                android:id="@+id/kamera_id"
+                android:icon="@android:drawable/ic_menu_camera">
+            </item>
+        </menu>
+
+    </item>
+
+    <item
         android:id="@+id/share_id"
         android:icon="@android:drawable/ic_menu_share"
         android:title="Paylaş"

@@ -1,5 +1,6 @@
 package com.eniserkaya.gynotdefteri;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.not_id){
-            Toast.makeText(this, "Not ekleme sayfası açılacak!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this,NotAlmaEkrani.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
