@@ -2,6 +2,7 @@ package com.eniserkaya.gyfirebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class Adapter  extends ArrayAdapter<Mesaj>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        Log.d("adapteregelenVeriler",mesajList.get(position).getMesaj());
         View view = convertView;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         inflater = ((Activity) context).getLayoutInflater();

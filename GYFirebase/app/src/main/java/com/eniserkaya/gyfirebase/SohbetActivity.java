@@ -2,6 +2,7 @@ package com.eniserkaya.gyfirebase;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,6 +42,7 @@ public class SohbetActivity extends AppCompatActivity implements View.OnClickLis
         etMesaj = (EditText)findViewById(R.id.messageEditText);
         sendBtn = (Button) findViewById(R.id.sendButton);
         sendBtn.setOnClickListener(this);
+        lvMesajlar.setAdapter(adapter);
 
         if(getIntent().getExtras()!=null){
             nickName= getIntent().getExtras().getString("nickname");
@@ -54,6 +56,11 @@ public class SohbetActivity extends AppCompatActivity implements View.OnClickLis
         dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Mesaj gelenMesaj = dataSnapshot.getValue(Mesaj.class);
+                mesajList.add(gelenMesaj);
+                adapter.notifyDataSetChanged();
+                lvMesajlar.smoothScrollToPosition(lvMesajlar.getCount()-1);
 
             }
 
