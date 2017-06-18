@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "484056626042",
+    "firebase_url": "https://gykfirebase.firebaseio.com",
+    "project_id": "gykfirebase",
+    "storage_bucket": "gykfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484056626042:android:346c754ee7210d54",
+        "android_client_info": {
+          "package_name": "com.eniserkaya.gyfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484056626042-bsh8cc235fq3ej920sit6k373vgqov5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eniserkaya.gyfirebase",
+            "certificate_hash": "0fb580249acac8fd9b45e4b22d039f65e526ccc4"
+          }
+        },
+        {
+          "client_id": "484056626042-7j0fjt7hkb2ursnebsc5k76nih5n5gef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt6z-zBdaXlAYblR9yRVZS5mQBNVUe7CQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484056626042-7j0fjt7hkb2ursnebsc5k76nih5n5gef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
