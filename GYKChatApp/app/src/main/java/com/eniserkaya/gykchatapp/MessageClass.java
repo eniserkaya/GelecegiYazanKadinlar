@@ -11,7 +11,7 @@ public class MessageClass {
     private String photoUrl;
 
     public MessageClass(){};
-    
+
 
     public MessageClass(String userName, String message, String photoUrl) {
         this.userName = userName;
