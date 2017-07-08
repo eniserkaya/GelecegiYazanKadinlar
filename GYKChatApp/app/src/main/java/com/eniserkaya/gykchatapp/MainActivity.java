@@ -14,6 +14,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +34,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mMessageEditText;
     private Button mSendButton;
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mMessageFirebaseDatabase;
+
+    private ChildEventListener mChildEventListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Firebase baglantisi
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mMessageFirebaseDatabase = mFirebaseDatabase.getReference().child("messages"); // getReference("messages");
 
         // view tanımlamaları
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
@@ -70,12 +86,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         mSendButton.setOnClickListener(this);
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                MessageClass message = dataSnapshot.getValue(MessageClass.class);
+                mMessageAdapter.add(message);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        mMessageFirebaseDatabase.addChildEventListener(mChildEventListener);
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.sendButton:
                 // Firebase'e data gonderecegiz.
+                MessageClass message = new MessageClass("Bilinmiyor",mMessageEditText.getText().toString().trim(),null);
+                mMessageFirebaseDatabase.push().setValue(message);
                 mMessageEditText.setText("");
                 break;
         }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1013640686172",
+    "firebase_url": "https://gykchatapp.firebaseio.com",
+    "project_id": "gykchatapp",
+    "storage_bucket": "gykchatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013640686172:android:60c318fc74bb8d4c",
+        "android_client_info": {
+          "package_name": "com.eniserkaya.gykchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013640686172-7fcgsmcbcg8sr3if29l6rcue7fkdoiss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eniserkaya.gykchatapp",
+            "certificate_hash": "0fb580249acac8fd9b45e4b22d039f65e526ccc4"
+          }
+        },
+        {
+          "client_id": "1013640686172-nmnc4ri1idmjtkkkh366s2k2s80r392r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0PHLmSDu4xRfybEErXUgxEcAKNIqRg9M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013640686172-nmnc4ri1idmjtkkkh366s2k2s80r392r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
