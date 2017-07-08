@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GYKChatApp</string>
     <string name="send_button_label">Gönder</string>
+    <string name="sign_out_label">Çıkış Yap</string>
 </resources>
