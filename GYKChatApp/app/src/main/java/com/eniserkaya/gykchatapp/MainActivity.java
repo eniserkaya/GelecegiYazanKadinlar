@@ -1,5 +1,7 @@
 package com.eniserkaya.gykchatapp;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +16,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,11 +26,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.R.attr.editable;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final int RC_SIGN_IN = 123;
 
     private ListView mMessageListView;
     private MessageAdapter mMessageAdapter;
@@ -39,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ChildEventListener mChildEventListener;
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Firebase baglantisi
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessageFirebaseDatabase = mFirebaseDatabase.getReference().child("messages"); // getReference("messages");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    //Kullanıcı giriş yaptı
+                }
+                else{
+                    // Kullanıcıya giriş yapma ekranını göster
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)
+                                    .setProviders(
+                                            Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
 
         // view tanımlamaları
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
@@ -108,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.sendButton:
                 // Firebase'e data gonderecegiz.
-                MessageClass message = new MessageClass("Bilinmiyor",mMessageEditText.getText().toString().trim(),null);
+                MessageClass message = new MessageClass(mFirebaseAuth.getCurrentUser().getDisplayName(),mMessageEditText.getText().toString().trim(),null);
                 mMessageFirebaseDatabase.push().setValue(message);
                 mMessageEditText.setText("");
                 break;
@@ -122,10 +156,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mFirebaseAuth!=null)
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_SIGN_IN){
+            if(resultCode == RESULT_OK){
+                // Giriş yaptı
+                Toast.makeText(this, "Giriş Yapıldı", Toast.LENGTH_SHORT).show();
+            }
+            else if(resultCode == RESULT_CANCELED){
+                finish();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.sign_out_menu){
             // Cikis yapcak
             Toast.makeText(this, "Çıkış Yap", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
         }
 
         return super.onOptionsItemSelected(item);
