@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GYKChatApp</string>
+    <string name="send_button_label">Gönder</string>
 </resources>
