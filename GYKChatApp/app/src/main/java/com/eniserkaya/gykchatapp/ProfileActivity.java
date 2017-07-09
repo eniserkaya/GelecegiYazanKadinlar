@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
@@ -27,7 +28,10 @@ public class ProfileActivity extends AppCompatActivity {
         customLv = (ListView)findViewById(R.id.listview_id);
 
         userNameTv.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-
+        Glide.with(this).load(FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getPhotoUrl())
+                .into(profileImg);
 
 
     }
