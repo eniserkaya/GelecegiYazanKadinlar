@@ -39,8 +39,7 @@ public class PwChangeActivity extends AppCompatActivity {
     }
 
     private void sifreDegistir() {
-        FirebaseAuth.getInstance().getCurrentUser().getUid()
-                DAtabase reference = FirebaseDatabase.getInstance().getReference("KullanıcıBilgileri/"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+      
 
         String provider = FirebaseAuth.getInstance().getCurrentUser().getProviders().get(0);
         if(!provider.equalsIgnoreCase("google.com"))
