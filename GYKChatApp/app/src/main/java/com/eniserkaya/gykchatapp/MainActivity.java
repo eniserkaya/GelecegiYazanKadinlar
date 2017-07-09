@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessageFirebaseDatabase = mFirebaseDatabase.getReference().child("messages"); // getReference("messages");
         mFirebaseAuth = FirebaseAuth.getInstance();
-
+        
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
