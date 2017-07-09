@@ -11,6 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -19,6 +22,8 @@ public class ProfileActivity extends AppCompatActivity {
     private CircleImageView profileImg;
     private TextView userNameTv;
     private ListView customLv;
+    private ListeAdapter mAdapter;
+    private List<ListClass> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,14 @@ public class ProfileActivity extends AppCompatActivity {
                 .getPhotoUrl())
                 .into(profileImg);
 
+        mList = new ArrayList<ListClass>();
+        mList.add(new ListClass(R.drawable.ic_pw_change,"Şifre Değiştir"));
+        mList.add(new ListClass(R.drawable.ic_action_name,"Hesabı Sil"));
+        mList.add(new ListClass(R.drawable.ic_action_exit,"Çıkış Yap"));
+        mAdapter = new ListeAdapter(this,R.layout.list_item,mList);
+        customLv.setAdapter(mAdapter);
+
 
     }
+
 }

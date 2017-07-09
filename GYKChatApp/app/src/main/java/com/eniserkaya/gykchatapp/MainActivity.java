@@ -1,6 +1,7 @@
 package com.eniserkaya.gykchatapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -24,13 +26,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.R.attr.editable;
-import static android.R.attr.start;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,12 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mSendButton;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mMessageFirebaseDatabase;
+    private DatabaseReference mMessageFirebaseReference;
 
     private ChildEventListener mChildEventListener;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mStorageReference;
+
 
 
     @Override
@@ -60,9 +66,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Firebase baglantisi
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessageFirebaseDatabase = mFirebaseDatabase.getReference().child("messages"); // getReference("messages");
         mFirebaseAuth = FirebaseAuth.getInstance();
-        
+        mFirebaseStorage = FirebaseStorage.getInstance();
+
+        mMessageFirebaseReference = mFirebaseDatabase.getReference().child("messages"); // getReference("messages");
+        mStorageReference = mFirebaseStorage.getReference().child("chat_photos");
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -141,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         };
-        mMessageFirebaseDatabase.addChildEventListener(mChildEventListener);
+        mMessageFirebaseReference.addChildEventListener(mChildEventListener);
     }
     @Override
     public void onClick(View view) {
@@ -149,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sendButton:
                 // Firebase'e data gonderecegiz.
                 MessageClass message = new MessageClass(mFirebaseAuth.getCurrentUser().getDisplayName(),mMessageEditText.getText().toString().trim(),null);
-                mMessageFirebaseDatabase.push().setValue(message);
+                mMessageFirebaseReference.push().setValue(message);
                 mMessageEditText.setText("");
                 break;
         }
@@ -185,6 +194,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(resultCode == RESULT_CANCELED){
                 finish();
             }
+        }
+        else if(requestCode == RC_PHOTO_PICKER){
+            if(resultCode == RESULT_OK) {
+                // Storage yolla
+                Uri uri = data.getData();
+                StorageReference mRefFoto = mStorageReference.child(uri.getLastPathSegment());
+                mRefFoto.putFile(uri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri downloadUri = taskSnapshot.getDownloadUrl();
+                        MessageClass messagePhoto = new MessageClass(mFirebaseAuth.getCurrentUser().getDisplayName(),
+                                null,
+                                downloadUri.toString());
+                        mMessageFirebaseReference.push().setValue(messagePhoto);
+                    }
+                });
+                //content : // asas // asas // 123412
+
+            }
+
+
         }
     }
 
