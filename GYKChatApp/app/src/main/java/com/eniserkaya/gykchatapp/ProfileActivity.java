@@ -1,12 +1,17 @@
 package com.eniserkaya.gykchatapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
@@ -46,6 +51,34 @@ public class ProfileActivity extends AppCompatActivity {
         mList.add(new ListClass(R.drawable.ic_action_exit,"Çıkış Yap"));
         mAdapter = new ListeAdapter(this,R.layout.list_item,mList);
         customLv.setAdapter(mAdapter);
+
+        customLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        //Change PW
+                        Intent intent = new Intent(ProfileActivity.this,PwChangeActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        // HEsabı sil
+                        FirebaseAuth.getInstance().getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(ProfileActivity.this, "Hesap Silindi", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                        break;
+                    case 2:
+                        //Cikis Yap
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
+                        break;
+                }
+            }
+        });
 
 
     }
