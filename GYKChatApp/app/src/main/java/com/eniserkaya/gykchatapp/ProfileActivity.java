@@ -11,10 +11,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
 
 
-    private ImageView profileImg;
+    private CircleImageView profileImg;
     private TextView userNameTv;
     private ListView customLv;
 
@@ -23,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
 
-        profileImg = (ImageView)findViewById(R.id.profile_img);
+        profileImg = (CircleImageView) findViewById(R.id.profile_img);
         userNameTv = (TextView)findViewById(R.id.username_tv);
         customLv = (ListView)findViewById(R.id.listview_id);
 

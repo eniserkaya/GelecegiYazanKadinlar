@@ -35,6 +35,7 @@ import static android.R.attr.start;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int RC_SIGN_IN = 123;
+    public static final int RC_PHOTO_PICKER = 12345;
 
     private ListView mMessageListView;
     private MessageAdapter mMessageAdapter;
@@ -116,7 +117,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 // Galeri Açılacak
-                Toast.makeText(MainActivity.this, "Galeri butonuna basıldı.", Toast.LENGTH_SHORT).show();
+                // TODO: Fire an intent to show an image picker
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Seçim Yapınız."), RC_PHOTO_PICKER);
             }
         });
 
