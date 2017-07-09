@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.R.attr.editable;
+import static android.R.attr.start;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -188,6 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Cikis yapcak
             Toast.makeText(this, "Çıkış Yap", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
+        }
+        else if(item.getItemId() == R.id.profile_menu){
+            Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);
